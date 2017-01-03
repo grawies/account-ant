@@ -1,0 +1,80 @@
+====    ====    ====    ====    TODO    ====    ====    ====    ====
+
+account history is correctly calculated
+verificates can be edited without errors
+i can only select one account at a time in a budget
+i can generate a balance report
+	i can choose for what period to view the balance calculation
+reports can show comparisons to last year's accounting
+i can load and save files using FileChoosers
+the entire Book structure is serializable 
+i can do closing of the books
+	account 2010 (eget kapital?) contains negative sum of all 19XX-accounts (balancing each new fiscal year)
+i can open a window for creating a new account book
+	i can define the accounts for the book
+		i can choose the ingoing balance for each account in the book
+	i can export the balance calculation to PDF
+i can import SIE-format accounting books
+i can export SIE-format accounting books
+when making an account budget: there is a column showing a month's % of the year
+when making an account budget: there is a column showing accumulated budget for each month
+when making an account budget: there is a column showing accumulated % for each month
+i can't have two windows editing the same verificate
+pressing enter with verificate(s) selected in accountview opens up the verificate(s) for viewing/editing
+verificateView panel sizes fit the window size
+accountView panel sizes fit the window size
+pressing enter with selected entries in verificatelist in verificateview opens corresponding windows
+pressing enter with selected entries in accountlist in budgetview opens corresponding windows
+all the data is saved to a single file
+i can choose what directory the save files are saved to
+signatures can't be "-" or "EOF"
+Text.lang.get(....), Text.string references and hardcoded strings are used consistently
+i can choose when the fiscal year begins upon creating a new Account Book
+i can choose when the fiscal year ends upon creating a new Account Book
+Locale is loaded from saved properties, nothing is hardcoded
+
+====    ====    ====    ==== CONSIDERED ====    ====    ====    ====
+
+when editing a verificate, it is clear which cells are editable
+on first edit after changing selected spreadsheet cell, previous content is erased
+i can choose to only view accounts which have been used this fiscal year
+
+====    ====    ====    ====    DONE    ====    ====    ====    ====
+
+2014-08-15	progress is now being logged...
+2014-08-15	when a new verificate is added, the mainView verificate list is updated
+2014-08-15	when a verificate is edited, the mainView verificate list is updated
+2014-08-15	date is handled automatically when editing verificates
+2014-08-15	when a new verificate is added, the mainView account list is updated
+2014-08-15	when a verificate is edited, the mainView account list is updated
+2014-08-15	"- - - - -" in MultiColumnPanels are consistent over rows and editing
+2014-08-15	when editing MultiColumnPanels, i can use åäö
+2014-08-15	when editing a verificate, the current date is shown in relevant rows
+2014-08-16	when creating a verificate, pressing enter balances the transaction
+2014-08-16	i can toggle whether all or only active accounts are visible in the account list
+2014-08-16	i can open view windows for multiple selected accounts simultaneously
+2014-08-16	i can choose what accounts have the status "active"
+2014-08-16	i can open view windows for multiple selected verificates simultaneously
+2014-08-18	a fiscal year has a beginning
+2014-08-18	a fiscal year has an end
+2014-08-20	BudgetMonths can be toString'd
+2014-08-20	Budgets are correctly saved
+2014-08-20	Budgets are correctly loaded
+2014-08-27	Dates of added verificate transactions are saved in the correct format
+2014-08-29	mainView panel sizes fit the window size
+2014-08-29	pressing enter with selected entries in accountlist in mainview opens corresponding windows
+2014-08-29	pressing enter with selected entries in verificatelist in mainview opens corresponding windows
+2014-08-30	i can open a window for creating a (12+)-month budget
+2014-08-30	all Date-usage has been replaced by minimalistic Time class
+2014-08-30	Budget structure orients by account budgets, generating BudgetMonths on the fly
+2014-08-30	i can view individual account budgets
+2014-08-30	i can edit individual account budgets
+2014-08-30	the displayed balance of an account in the budget is correct
+2014-08-30	i can't have two windows editing the same account budget
+2014-09-25	i am reminded to save before exiting
+2014-09-25	cancelling the save dialogue no longer causes an uncaught exception to be thrown
+2014-09-25	Swing has the correct Locale
+2014-09-25	i can generate a result report
+2014-09-25	the default verificate date is correctly today's date
+2014-09-25	dialogue options are in the correct language
+2014-09-26	Resultsreports has the correct subtitle

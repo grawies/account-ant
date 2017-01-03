@@ -1,0 +1,5 @@
+TextPrompt
+	Java Tips Weblog
+	Rob Camick
+	http://tips4java.wordpress.com/2009/11/29/text-prompt/
+	"You are free to use and/or modify any or all code posted on the Java Tips Weblog without restriction. A credit in the code comments would be nice, but not in any way mandatory."
