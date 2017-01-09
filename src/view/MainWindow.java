@@ -9,12 +9,14 @@ import java.text.ParseException;
 import java.util.Locale;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import view.report.BalanceReportWindow;
 import view.report.ReportType;
@@ -401,8 +403,17 @@ public class MainWindow extends SafeQuitJFrame
 
 	public void LoadBook()
 	{
-		String s = JOptionPane.showInputDialog(Text.viewMainLoadFilename, "loadtest.acc");
-		LoadBook(s);
+		JFileChooser chooser = new JFileChooser(".");
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter("Account files", "acc");
+	    chooser.setFileFilter(filter);
+	    int returnVal = chooser.showOpenDialog(this);
+	    if(returnVal == JFileChooser.APPROVE_OPTION) {
+	    	String filename = chooser.getSelectedFile().getName();
+	    	System.out.println(filename + " chosen.");
+	    	LoadBook(filename);
+	    } else {
+	    	System.out.println("An error/cancel occurred while loading.");
+	    }
 	}
 
 	public void LoadBook(String fname)
