@@ -479,15 +479,15 @@ public class MainWindow extends SafeQuitJFrame
 		getContentPane().repaint();
 	}
 	
-	public boolean trySave() {
+	private boolean trySave() {
 		// TODO: safe filename String handling
 		System.out.println("Saving!");
-		String savename = JOptionPane.showInputDialog("Filename:","savetest");
-		if (savename == null || "".equals(savename)) {
+		String filename = getBookFileNameFromUser();
+		if (filename == null || "".equals(filename)) {
 			System.out.println("Save name is null. Not saving.");
 			return false;
 		}
-		Book.Save(book, "", savename);
+		Book.Save(book, "", filename);
 		return true;
 	}
 	

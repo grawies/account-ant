@@ -21,10 +21,7 @@ public class BookHandling
 		try
 		{
 			// TODO make this OS-unspecific
-			System.out.println("Saving Book to file:\n" + ("".equals(dir) ? "./" : dir) + filename
-					+ ".acc");
-			if( !".acc".equals(filename.substring(filename.length() - 4, filename.length())) )
-				filename += ".acc";
+			System.out.println("Saving Book to file:\n" + ("".equals(dir) ? "./" : dir) + filename);
 			FileWriter fw = new FileWriter(new File(dir + filename));
 			BufferedWriter file = new BufferedWriter(fw);
 
