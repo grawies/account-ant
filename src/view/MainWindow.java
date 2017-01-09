@@ -34,6 +34,8 @@ public class MainWindow extends SafeQuitJFrame
 	MultiColumnPanel verificateListPanel;
 	MultiColumnPanel accountListPanel;
 	JTabbedPane mainTabPane;
+	
+	private JFileChooser bookFileChooser;
 
 	public MainWindow()
 	{
@@ -400,23 +402,48 @@ public class MainWindow extends SafeQuitJFrame
 		jtp.add(Text.viewMainAccountplanTabName, accountListPanel);
 		return jtp;
 	}
-
-	public void LoadBook()
-	{
-		JFileChooser chooser = new JFileChooser(".");
-	    FileNameExtensionFilter filter = new FileNameExtensionFilter("Account files", "acc");
-	    chooser.setFileFilter(filter);
+	
+	/*
+	 * Initializes private JFileChooser if it is not already initialized.
+	 */
+	private JFileChooser getBookFileChooser() {
+		// initialize bookfile
+		if (bookFileChooser == null) {
+			bookFileChooser = new JFileChooser(".");
+		    FileNameExtensionFilter filter = new FileNameExtensionFilter("Account files", "acc");
+		    bookFileChooser.setFileFilter(filter);
+		}
+	    return bookFileChooser;
+	}
+	
+	/*
+	 * Polls the user for an acc-file to load from or save to, using a JFileChooser dialog.
+	 */
+	private String getBookFileNameFromUser() {
+		JFileChooser chooser = getBookFileChooser();
 	    int returnVal = chooser.showOpenDialog(this);
 	    if(returnVal == JFileChooser.APPROVE_OPTION) {
 	    	String filename = chooser.getSelectedFile().getName();
 	    	System.out.println(filename + " chosen.");
-	    	LoadBook(filename);
+	    	return filename;
 	    } else {
 	    	System.out.println("An error/cancel occurred while loading.");
+	    	return null;
 	    }
 	}
 
-	public void LoadBook(String fname)
+	/*
+	 * Gets a book name from the user and loads it.
+	 */
+	private void LoadBook()
+	{
+		String filename = getBookFileNameFromUser();
+		if (filename != null) {
+			LoadBook(filename);
+		}
+	}
+
+	private void LoadBook(String fname)
 	{
 		System.out.println("Loading!");
 		try
