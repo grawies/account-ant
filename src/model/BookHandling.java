@@ -16,7 +16,7 @@ public class BookHandling
 	{
 	}
 
-	public static void Save (Book book, String dir, String filename)
+	public static void save (Book book, String dir, String filename)
 	{
 		try
 		{
@@ -70,7 +70,7 @@ public class BookHandling
 		}
 	}
 
-	public static Book Load(String dir, String filename) throws FileNotFoundException,
+	public static Book load(String dir, String filename) throws FileNotFoundException,
 			ParseException
 	{
 		try
