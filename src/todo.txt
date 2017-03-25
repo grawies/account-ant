@@ -6,7 +6,7 @@ i can only select one account at a time in a budget
 i can generate a balance report
 	i can choose for what period to view the balance calculation
 reports can show comparisons to last year's accounting
-the entire Book structure is serializable 
+the entire Book structure is serializable
 i can do closing of the books
 	account 2010 (eget kapital?) contains negative sum of all 19XX-accounts (balancing each new fiscal year)
 i can open a window for creating a new account book
