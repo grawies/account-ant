@@ -1,6 +1,5 @@
 ====    ====    ====    ====    TODO    ====    ====    ====    ====
 
-verificates are shown in descending order by date
 account history is correctly calculated
 verificates can be edited without errors
 i can only select one account at a time in a budget
@@ -82,3 +81,4 @@ i can choose to only view accounts which have been used this fiscal year
 2017-01-01	all the data is saved to a single file
 2017-01-01	i can choose what directory the save files are saved to
 2017-03-06	FileChooser is initialized to "current.acc"
+2017-03-20	verificates are shown in descending order by date
