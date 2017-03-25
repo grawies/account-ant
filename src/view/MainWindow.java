@@ -7,11 +7,9 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
-import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -19,12 +17,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import view.report.BalanceReportWindow;
-import view.report.ReportType;
-import view.report.ReportWindow;
-import view.report.ResultsReportWindow;
 import model.Account;
 import model.Book;
+import view.report.BalanceReportWindow;
+import view.report.ResultsReportWindow;
 
 @SuppressWarnings("serial")
 public class MainWindow extends SafeQuitJFrame
