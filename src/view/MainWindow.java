@@ -7,6 +7,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -19,6 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.Account;
 import model.Book;
+import model.Verificate;
 import view.report.BalanceReportWindow;
 import view.report.ResultsReportWindow;
 
@@ -391,7 +394,12 @@ public class MainWindow extends SafeQuitJFrame
 	
 	public JTabbedPane MainTabPane()
 	{
-		verificateListPanel = new MultiColumnPanel(book.verificates);
+		// add verificase in reverse order, so new ones are on top
+		List<Verificate> reversedVerificates = new ArrayList<Verificate>();
+		for (int i = book.verificates.size()-1; i >= 0; i--) {
+			reversedVerificates.add(book.verificates.get(i));
+		}
+		verificateListPanel = new MultiColumnPanel(reversedVerificates);
 		accountListPanel = new MultiColumnPanel(book.accountPlan);
 
 		JTabbedPane jtp = new JTabbedPane();
