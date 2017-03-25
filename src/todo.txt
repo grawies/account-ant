@@ -1,5 +1,6 @@
 ====    ====    ====    ====    TODO    ====    ====    ====    ====
 
+verificates are shown in descending order by date
 account history is correctly calculated
 verificates can be edited without errors
 i can only select one account at a time in a budget
@@ -25,12 +26,12 @@ accountView panel sizes fit the window size
 pressing enter with selected entries in verificatelist in verificateview opens corresponding windows
 pressing enter with selected entries in accountlist in budgetview opens corresponding windows
 all the data is saved to a single file
-i can choose what directory the save files are saved to
 signatures can't be "-" or "EOF"
 Text.lang.get(....), Text.string references and hardcoded strings are used consistently
 i can choose when the fiscal year begins upon creating a new Account Book
 i can choose when the fiscal year ends upon creating a new Account Book
 Locale is loaded from saved properties, nothing is hardcoded
+results report has a results line at bottom
 
 ====    ====    ====    ==== CONSIDERED ====    ====    ====    ====
 
