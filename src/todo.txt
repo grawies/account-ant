@@ -6,7 +6,6 @@ i can only select one account at a time in a budget
 i can generate a balance report
 	i can choose for what period to view the balance calculation
 reports can show comparisons to last year's accounting
-i can load and save files using FileChoosers
 the entire Book structure is serializable 
 i can do closing of the books
 	account 2010 (eget kapital?) contains negative sum of all 19XX-accounts (balancing each new fiscal year)
@@ -78,3 +77,7 @@ i can choose to only view accounts which have been used this fiscal year
 2014-09-25	the default verificate date is correctly today's date
 2014-09-25	dialogue options are in the correct language
 2014-09-26	Resultsreports has the correct subtitle
+2017-01-01	i can load and save files using FileChoosers
+2017-01-01	all the data is saved to a single file
+2017-01-01	i can choose what directory the save files are saved to
+2017-03-06	FileChooser is initialized to "current.acc"
