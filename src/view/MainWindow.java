@@ -70,6 +70,19 @@ public class MainWindow extends SafeQuitJFrame
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setVisible(true);
 	}
+	
+	/**
+	 * Opens the verificates selected in the displayed list of verificates.
+	 */
+	private void openSelectedVerificates()
+	{
+		String[] selectedVerificates = verificateListPanel.getSelectedValues(0);
+		for (String idString : selectedVerificates)
+		{
+			int id = Integer.parseInt(idString);
+			new VerificateWindow(book, book.getVerificate(id));
+		}
+	}
 
 	public KeyAdapter LazyEnterTemp() {
 		return new KeyAdapter()
@@ -82,12 +95,7 @@ public class MainWindow extends SafeQuitJFrame
 					switch( mainTabPane.getSelectedIndex() )
 					{
 					case 0:
-						String[] selectedVerificates = verificateListPanel.getSelectedValues(0);
-						for (String idString : selectedVerificates)
-						{
-							int id = Integer.parseInt(idString);
-							new VerificateWindow(book, book.getVerificate(id));
-						}
+						openSelectedVerificates();
 						break;
 					case 1:
 						selectedIndices = accountListPanel.list.getSelectedIndices();
@@ -255,13 +263,7 @@ public class MainWindow extends SafeQuitJFrame
 		{
 			public void actionPerformed(ActionEvent event)
 			{
-				int[] selectedIndices = verificateListPanel.list.getSelectedIndices();
-				if( selectedIndices.length == 0 )
-					return;
-				for ( int index : selectedIndices )
-				{
-					new VerificateWindow(book, book.verificates.get(index));
-				}
+				openSelectedVerificates();
 			}
 		});
 		return verificateMenuItem;
