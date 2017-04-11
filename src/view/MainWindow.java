@@ -82,12 +82,11 @@ public class MainWindow extends SafeQuitJFrame
 					switch( mainTabPane.getSelectedIndex() )
 					{
 					case 0:
-						selectedIndices = verificateListPanel.list.getSelectedIndices();
-						if( selectedIndices.length == 0 )
-							break;
-						for ( int index : selectedIndices )
+						String[] selectedVerificates = verificateListPanel.getSelectedValues(0);
+						for (String idString : selectedVerificates)
 						{
-							new VerificateWindow(book, book.verificates.get(index));
+							int id = Integer.parseInt(idString);
+							new VerificateWindow(book, book.getVerificate(id));
 						}
 						break;
 					case 1:

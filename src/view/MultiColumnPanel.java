@@ -282,6 +282,24 @@ public class MultiColumnPanel extends JPanel
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 *  Gets the values in column <code>columnIndex</code> for all selected rows of the list.
+	 *  
+	 *  @throws IndexOutOfBoundsException	if columnIndex is outside of the range of columns in the panel. 
+	 */
+	public String[] getSelectedValues(int columnIndex)
+	{
+		if (columnData.length == 0)
+			return new String[]{};
+		if (columnIndex < 0 || columnData[0].length < columnIndex)
+			throw new IndexOutOfBoundsException("Index " + columnIndex + " out of range.");
+		ArrayList<String> values = new ArrayList<String>();
+		for (int index : list.getSelectedIndices())
+			values.add(columnData[index][columnIndex]);
+		String[] valuesArray = new String[values.size()];
+		return values.toArray(valuesArray);
+	}
 
 	// TODO handle this unchecked generic type thingie
 	@SuppressWarnings("rawtypes")

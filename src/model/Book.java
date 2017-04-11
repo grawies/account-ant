@@ -137,4 +137,17 @@ public class Book
 	{
 		return new Time(endDate);
 	}
+	
+	/**
+	 * Returns the verificate with the given ID. Returns <code>null</code> if it does not exist.
+	 *  
+	 * @param id	the id of the desired verificate.
+	 * @return		the verificate.
+	 */
+	public Verificate getVerificate(int id) {
+		for (Verificate v : verificates)
+			if (v.getID() == id)
+				return v;
+		return null;
+	}
 }
