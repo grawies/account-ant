@@ -104,13 +104,13 @@ public class Book
 	// GetBalanceReport
 	public static void Save(Book book, String dir, String filename)
 	{
-		BookHandling.save(book, dir, filename);
+		BookIO.save(book, dir, filename);
 	}
 
 	static public Book Load(String dir, String filename) throws ParseException,
 			FileNotFoundException
 	{
-		return BookHandling.load(dir, filename);
+		return BookIO.load(dir, filename);
 	}
 
 	public int getNextVerificateID()

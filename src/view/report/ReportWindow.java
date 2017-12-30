@@ -64,8 +64,13 @@ public abstract class ReportWindow extends ClosableJFrame implements ReportOpene
 		// Date: | YYYY-MM-DD | - | YYYY-MM-DD |
 		// { Children-specific content }
 
-		startDateField = new JTextField(7);
-		endDateField = new JTextField(7);
+		int defaultMonth = book.getVerificate(book.getNextVerificateID() - 1).getDate().month;
+		int defaultYear = b.getStartDate().getYearOfNextMonth(defaultMonth);
+		Time defaultStartDate = new Time(defaultYear, defaultMonth, 1);
+		Time defaultEndDate = new Time(defaultYear, defaultMonth, Time.getMonthLength(defaultYear, defaultMonth));
+		
+		startDateField = new JTextField(defaultStartDate.toString(), 7);
+		endDateField = new JTextField(defaultEndDate.toString(), 7);
 		TextPrompt startDatePrompt = new TextPrompt("YYYY-MM-DD", startDateField);
 		TextPrompt endDatePrompt = new TextPrompt("YYYY-MM-DD", endDateField);
 		startDatePrompt.changeAlpha(0.5f);

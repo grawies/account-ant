@@ -24,6 +24,8 @@ import model.Time;
 import model.Transaction;
 import model.TransactionType;
 import model.Verificate;
+import model.report.ReportGenerator;
+import model.report.ResultsReport;
 
 @SuppressWarnings("serial")
 public class VerificateWindow extends UniqueJFrame
@@ -42,22 +44,24 @@ public class VerificateWindow extends UniqueJFrame
 	JTextField verifDescr;
 	boolean newVerificate;
 
-	public VerificateWindow( Book b, Verificate v )
+	public VerificateWindow( Book b, Verificate v, boolean newVerificate )
 	{
 		super();
 		book = b;
-		newVerificate = false;
+		this.newVerificate = false;
 
-		if( v == null )
+		if (newVerificate || v == null)
 		{
 			tryCreatingNewUniqueWindow();
 			// new Verificate
 			System.out.println("Creating window for new verificate");
-			int id = book.getNextVerificateID();
-			v = new Verificate(id, "");
-			newVerificate = true;
+			if (v == null) {
+				int id = book.getNextVerificateID();
+				v = new Verificate(id, "");
+			}
+			this.newVerificate = true;
 		}
-		placverif = new PlaceboVerificate(b, v, newVerificate);
+		placverif = new PlaceboVerificate(b, v, this.newVerificate);
 
 		setTitle(Text.viewVerificateNum + placverif.id);
 
@@ -348,5 +352,55 @@ public class VerificateWindow extends UniqueJFrame
 	{
 		JOptionPane.showMessageDialog(null, Text.warningNewVerificateAlreadyOpenText,
 				Text.warningNewVerificateAlreadyOpen, JOptionPane.WARNING_MESSAGE);
+	}
+
+	/**
+	 * Opens a new verificate window, prepared with a end-of-month entry for a
+	 * user-supplied month.
+	 */
+	public static VerificateWindow openNewEndOfMonthWindow(Book book) {
+		if (!book.accountPlan.containsKey(2019) || !book.accountPlan.containsKey(8999)) {
+			System.out.println("One of accounts 2019, 8999 not contained in Book.");
+			return null;
+		}
+
+ 		// guess month (from last verificate)
+		int latestMonth = book.getVerificate(book.getNextVerificateID() - 1).getDate().month;
+		// get input, with guessed month defaulted
+		String choice = (String)JOptionPane.showInputDialog(null, Text.endOfMonthMonthChoiceText,
+				Text.endOfMonthMonthChoiceTitle, JOptionPane.QUESTION_MESSAGE,
+                                     null,
+                                     Text.viewMonth,
+             Text.viewMonth[latestMonth-1]);
+		if (choice == null) {
+		    return null;	
+		}
+		int chosenMonth = 1;
+		for (; chosenMonth<=12;chosenMonth++) {
+			if (Text.viewMonth[chosenMonth-1].equals(choice)) {
+				break;
+			}
+		}
+		// Compute the total balance.
+		int year = book.getStartDate().getYearOfNextMonth(chosenMonth);
+		Time start = new Time(year, chosenMonth, 1);
+		Time end = new Time(year, chosenMonth, Time.getMonthLength(year, chosenMonth));
+		ResultsReport report = ReportGenerator.generateResultsReport(book, start, end);
+		double balance = report.getNetBalance();
+		
+		// Create a end-of-month verificate template.
+		String verificateDescription = Text.lang.get("viewVerificateEndOfMonthDescription") + " " + Text.lang.get("viewMonth" + Integer.toString(chosenMonth-1));
+		Verificate v = new Verificate(book.getNextVerificateID(), verificateDescription, end);
+		Account debetAccount = book.accountPlan.get(8999), creditAccount = book.accountPlan.get(2019);
+		if (balance < 0) {
+			balance = -balance;
+			Account tmp = debetAccount;
+			debetAccount = creditAccount;
+			creditAccount = tmp;
+		}
+		v.addTransaction(new Transaction(debetAccount, balance, TransactionType.DEBET));
+		v.addTransaction(new Transaction(creditAccount, balance, TransactionType.CREDIT));
+		
+		return new VerificateWindow(book, v, true);
 	}
 }

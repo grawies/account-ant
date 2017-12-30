@@ -57,6 +57,10 @@ public class Text {
 	public static String viewMainMenubarEdit;
 	public static String viewMainMenubarEditNewVerificate;
 	public static String viewMainMenubarEditNewVerificateToolTip;
+	public static String viewMainMenubarEditNewEndOfMonthVerificate;
+	public static String viewMainMenubarEditNewEndOfMonthVerificateToolTip;
+	public static String endOfMonthMonthChoiceText;
+	public static String endOfMonthMonthChoiceTitle;
 	public static String viewMainMenubarEditEditVerificate;
 	public static String viewMainMenubarEditEditVerificateToolTip;
 	public static String viewMainMenubarViewViewAccount;
@@ -145,8 +149,12 @@ public class Text {
 		viewMainTitle							= "Bokföring för ";
 		viewMainLoadFilename					= "Skriv in bokföringsfilens sökväg";
 		viewMainMenubarEdit						= "Nytt";
-		viewMainMenubarEditNewVerificate		= "Ny verifikation";
+		viewMainMenubarEditNewVerificate	    	= "Ny verifikation";
 		viewMainMenubarEditNewVerificateToolTip	= "Skapa ny verifikation";
+		viewMainMenubarEditNewEndOfMonthVerificate	    	= "Nytt månadsbokslut";
+		viewMainMenubarEditNewEndOfMonthVerificateToolTip	= "Generera automatiskt ett månadsbokslut";
+		endOfMonthMonthChoiceText				= "Välj månad för månadsbokslut";
+		endOfMonthMonthChoiceTitle				= "Månadsbokslut";
 		viewMainMenubarEditEditVerificate		= "Visa/Ändra verifikation";
 		viewMainMenubarEditEditVerificateToolTip	= "Visa och eventuellt ändra existerande verifikation";
 		viewMainMenubarViewViewAccount			= "Visa verifikationer för konto";
@@ -219,22 +227,9 @@ public class Text {
 		exit									= "Avsluta";
 		exitToolTip								= "Avsluta programmet utan att spara";
 		
-		String[] vm =
-				{"Januari",
-				"Februari",
-				"Mars",
-				"April",
-				"Maj",
-				"Juni",
-				"Juli",
-				"Augusti",
-				"September",
-				"Oktober",
-				"November",
-				"December"};
-		viewMonth = new String[vm.length];
-		for (int i=0; i<vm.length; i++) {
-			viewMonth[i] = vm[i];
+		viewMonth = new String[12];
+		for (int i=0; i<12; i++) {
+			viewMonth[i] = lang.get("viewMonth" + Integer.toString(i));
 		}
 	}
 }

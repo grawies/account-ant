@@ -21,7 +21,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.Account;
 import model.Book;
+import model.Time;
 import model.Verificate;
+import model.report.ReportGenerator;
+import model.report.ResultsReport;
 import view.report.BalanceReportWindow;
 import view.report.ResultsReportWindow;
 
@@ -34,7 +37,7 @@ public class MainWindow extends SafeQuitJFrame
 	MultiColumnPanel verificateListPanel;
 	MultiColumnPanel accountListPanel;
 	JTabbedPane mainTabPane;
-	
+
 	private JFileChooser bookFileChooser;
 
 	public MainWindow()
@@ -57,11 +60,11 @@ public class MainWindow extends SafeQuitJFrame
 		setJMenuBar(menubar);
 
 		mainTabPane = MainTabPane();
-		
+
 		// TODO: real keyboard shortcuts
 		verificateListPanel.list.addKeyListener(LazyEnterTemp());
 		accountListPanel.list.addKeyListener(LazyEnterTemp());
-		
+
 		getContentPane().add(mainTabPane);
 
 		setTitle(Text.viewMainTitle + book.getCompanyName());
@@ -70,21 +73,22 @@ public class MainWindow extends SafeQuitJFrame
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setVisible(true);
 	}
-	
+
 	/**
 	 * Opens the verificates selected in the displayed list of verificates.
 	 */
 	private void openSelectedVerificates()
 	{
 		String[] selectedVerificates = verificateListPanel.getSelectedValues(0);
-		for (String idString : selectedVerificates)
+		for ( String idString : selectedVerificates )
 		{
 			int id = Integer.parseInt(idString);
-			new VerificateWindow(book, book.getVerificate(id));
+			new VerificateWindow(book, book.getVerificate(id), false /* newVerificate */);
 		}
 	}
 
-	public KeyAdapter LazyEnterTemp() {
+	public KeyAdapter LazyEnterTemp()
+	{
 		return new KeyAdapter()
 		{
 			public void keyPressed(KeyEvent e)
@@ -113,9 +117,9 @@ public class MainWindow extends SafeQuitJFrame
 				}
 			}
 		};
-		
+
 	}
-	
+
 	public JMenu FileMenu()
 	{
 		JMenu file = new JMenu("File");
@@ -134,6 +138,7 @@ public class MainWindow extends SafeQuitJFrame
 
 		// add menuitems
 		edit.add(AddVerificateMenuItem());
+		edit.add(AddEndOfMonthVerificateMenuItem());
 		edit.add(EditVerificateMenuItem());
 
 		return edit;
@@ -248,7 +253,23 @@ public class MainWindow extends SafeQuitJFrame
 		{
 			public void actionPerformed(ActionEvent event)
 			{
-				new VerificateWindow(book, null);
+				new VerificateWindow(book, null,  true /* newVerificate */);
+			}
+		});
+		return verificateMenuItem;
+	}
+
+	public JMenuItem AddEndOfMonthVerificateMenuItem()
+	{
+		JMenuItem verificateMenuItem = new JMenuItem(
+				Text.viewMainMenubarEditNewEndOfMonthVerificate);
+		verificateMenuItem.setMnemonic(KeyEvent.VK_M);
+		verificateMenuItem.setToolTipText(Text.viewMainMenubarEditNewEndOfMonthVerificateToolTip);
+		verificateMenuItem.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent event)
+			{
+				VerificateWindow.openNewEndOfMonthWindow(book);
 			}
 		});
 		return verificateMenuItem;
@@ -323,7 +344,8 @@ public class MainWindow extends SafeQuitJFrame
 
 	public JMenuItem SetAccountActiveMenuItem()
 	{
-		JMenuItem activeAccountMenuItem = new JMenuItem(Text.viewMainMenubarViewToggleActiveAccount);
+		JMenuItem activeAccountMenuItem = new JMenuItem(
+				Text.viewMainMenubarViewToggleActiveAccount);
 		activeAccountMenuItem.setMnemonic(KeyEvent.VK_T);
 		activeAccountMenuItem.setToolTipText(Text.viewMainMenubarViewToggleActiveAccountToolTip);
 		activeAccountMenuItem.addActionListener(new ActionListener()
@@ -363,9 +385,11 @@ public class MainWindow extends SafeQuitJFrame
 
 	public JMenuItem GenerateResultsReportMenuItem()
 	{
-		JMenuItem resultsReportMenuItem = new JMenuItem(Text.lang.get("viewMainMenubarReportResultsReport"));
+		JMenuItem resultsReportMenuItem = new JMenuItem(
+				Text.lang.get("viewMainMenubarReportResultsReport"));
 		resultsReportMenuItem.setMnemonic(KeyEvent.VK_R);
-		resultsReportMenuItem.setToolTipText(Text.lang.get("viewMainMenubarReportResultsReportToolTip"));
+		resultsReportMenuItem
+				.setToolTipText(Text.lang.get("viewMainMenubarReportResultsReportToolTip"));
 		resultsReportMenuItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent event)
@@ -379,9 +403,11 @@ public class MainWindow extends SafeQuitJFrame
 
 	public JMenuItem GenerateBalanceReportMenuItem()
 	{
-		JMenuItem balanceReportMenuItem = new JMenuItem(Text.lang.get("viewMainMenubarReportBalanceReport"));
+		JMenuItem balanceReportMenuItem = new JMenuItem(
+				Text.lang.get("viewMainMenubarReportBalanceReport"));
 		balanceReportMenuItem.setMnemonic(KeyEvent.VK_B);
-		balanceReportMenuItem.setToolTipText(Text.lang.get("viewMainMenubarReportBalanceReportToolTip"));
+		balanceReportMenuItem
+				.setToolTipText(Text.lang.get("viewMainMenubarReportBalanceReportToolTip"));
 		balanceReportMenuItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent event)
@@ -392,12 +418,13 @@ public class MainWindow extends SafeQuitJFrame
 		});
 		return balanceReportMenuItem;
 	}
-	
+
 	public JTabbedPane MainTabPane()
 	{
 		// add verificase in reverse order, so new ones are on top
 		List<Verificate> reversedVerificates = new ArrayList<Verificate>();
-		for (int i = book.verificates.size()-1; i >= 0; i--) {
+		for ( int i = book.verificates.size() - 1; i >= 0; i-- )
+		{
 			reversedVerificates.add(book.verificates.get(i));
 		}
 		verificateListPanel = new MultiColumnPanel(reversedVerificates);
@@ -408,35 +435,42 @@ public class MainWindow extends SafeQuitJFrame
 		jtp.add(Text.viewMainAccountplanTabName, accountListPanel);
 		return jtp;
 	}
-	
+
 	/*
 	 * Initializes private JFileChooser if it is not already initialized.
 	 */
-	private JFileChooser getBookFileChooser() {
+	private JFileChooser getBookFileChooser()
+	{
 		// initialize bookfile
-		if (bookFileChooser == null) {
+		if( bookFileChooser == null )
+		{
 			bookFileChooser = new JFileChooser(".");
-		    FileNameExtensionFilter filter = new FileNameExtensionFilter("Account files", "acc");
-		    bookFileChooser.setFileFilter(filter);
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Account files", "acc");
+			bookFileChooser.setFileFilter(filter);
 			bookFileChooser.setSelectedFile(new File("current.acc"));
 		}
-	    return bookFileChooser;
+		return bookFileChooser;
 	}
-	
+
 	/*
-	 * Polls the user for an acc-file to load from or save to, using a JFileChooser dialog.
+	 * Polls the user for an acc-file to load from or save to, using a
+	 * JFileChooser dialog.
 	 */
-	private String getBookFileNameFromUser() {
+	private String getBookFileNameFromUser()
+	{
 		JFileChooser chooser = getBookFileChooser();
-	    int returnVal = chooser.showOpenDialog(this);
-	    if(returnVal == JFileChooser.APPROVE_OPTION) {
-	    	String filename = chooser.getSelectedFile().getName();
-	    	System.out.println(filename + " chosen.");
-	    	return filename;
-	    } else {
-	    	System.out.println("An error/cancel occurred while loading.");
-	    	return null;
-	    }
+		int returnVal = chooser.showOpenDialog(this);
+		if( returnVal == JFileChooser.APPROVE_OPTION )
+		{
+			String filename = chooser.getSelectedFile().getName();
+			System.out.println(filename + " chosen.");
+			return filename;
+		}
+		else
+		{
+			System.out.println("An error/cancel occurred while loading.");
+			return null;
+		}
 	}
 
 	/*
@@ -445,7 +479,8 @@ public class MainWindow extends SafeQuitJFrame
 	private void LoadBook()
 	{
 		String filename = getBookFileNameFromUser();
-		if (filename != null) {
+		if( filename != null )
+		{
 			LoadBook(filename);
 		}
 	}
@@ -468,10 +503,10 @@ public class MainWindow extends SafeQuitJFrame
 
 	public void BookReplaced()
 	{/*
-	 * mainPanel.remove(verificateListPanel); verificateListPanel = new
-	 * MultiColumnPanel(book.verificates); mainPanel.add(verificateListPanel);
-	 * mainPanel.updateUI();
-	 */
+		 * mainPanel.remove(verificateListPanel); verificateListPanel = new
+		 * MultiColumnPanel(book.verificates);
+		 * mainPanel.add(verificateListPanel); mainPanel.updateUI();
+		 */
 	}
 
 	public void updateVerificateAndAccountLists()
@@ -485,25 +520,31 @@ public class MainWindow extends SafeQuitJFrame
 	{
 		getContentPane().repaint();
 	}
-	
-	private boolean trySave() {
+
+	private boolean trySave()
+	{
 		// TODO: safe filename String handling
 		System.out.println("Saving!");
 		String filename = getBookFileNameFromUser();
-		if (filename == null || "".equals(filename)) {
+		if( filename == null || "".equals(filename) )
+		{
 			System.out.println("Save name is null. Not saving.");
 			return false;
 		}
 		Book.Save(book, "", filename);
 		return true;
 	}
-	
-	public boolean tryQuit() {
-		int exit = JOptionPane.showConfirmDialog(null, Text.lang.get("saveBeforeExit"), Text.lang.get("saveBeforeExitTitle"), JOptionPane.YES_NO_CANCEL_OPTION);
-		switch( exit) {
+
+	public boolean tryQuit()
+	{
+		int exit = JOptionPane.showConfirmDialog(null, Text.lang.get("saveBeforeExit"),
+				Text.lang.get("saveBeforeExitTitle"), JOptionPane.YES_NO_CANCEL_OPTION);
+		switch( exit )
+		{
 		case JOptionPane.YES_OPTION:
 			boolean successfulSave = trySave();
-			if (!successfulSave) {
+			if( !successfulSave )
+			{
 				System.out.println("Unsuccessful save! Aborting shutdown.");
 				return false;
 			}
@@ -518,19 +559,3 @@ public class MainWindow extends SafeQuitJFrame
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

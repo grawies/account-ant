@@ -37,7 +37,7 @@ public class AccountWindow extends JFrame
 				if( selectedIndex == -1 )
 					return;
 				int id = Integer.parseInt(verificateListPanel.columnData[selectedIndex][0]);
-				new VerificateWindow(book, book.verificates.get(id - 1));
+				new VerificateWindow(book, book.verificates.get(id - 1), false /* newVerificate */);
 			}
 		});
 		add(viewVerificateButton, "South");

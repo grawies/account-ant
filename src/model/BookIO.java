@@ -10,9 +10,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
 
-public class BookHandling
+public class BookIO
 {
-	private BookHandling()
+	private BookIO()
 	{
 	}
 

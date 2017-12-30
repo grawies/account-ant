@@ -17,4 +17,19 @@ public class ResultsReport extends AbstractReport
 	{
 		return sectionIDs;
 	}
+
+	public double getNetBalance()
+	{
+		double netBalance = 0;
+		for ( ReportSection section : sections )
+		{
+			double sign = -1;
+			if( section.sectionDigit == 3 )
+			{
+				sign = +1;
+			}
+			netBalance += sign * section.sumLine.period;
+		}
+		return netBalance;
+	}
 }
